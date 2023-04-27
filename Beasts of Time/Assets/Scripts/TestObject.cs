@@ -6,17 +6,16 @@ public class TestObject : MonoBehaviour
 {
     private Rigidbody2D rb;
 
-    public float Force = 100f;
+    public float force = 100f;
     private bool addForce;
 
-    public enum TestObjectMode {addForce, SomethingElse}
+    public enum TestObjectMode {addVerticalForce, addHorizontalForce, Something}
     public TestObjectMode testObjectMode = new TestObjectMode();
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-
     }
 
     // Update is called once per frame
@@ -29,9 +28,15 @@ public class TestObject : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (addForce && testObjectMode.ToString() == "addForce")
+        if (addForce && testObjectMode == TestObjectMode.addVerticalForce)
         {
-            rb.AddForce(new Vector2(0, Force));
+            rb.AddForce(new Vector2(0, force));
+            addForce = false;
+        }
+
+        if (addForce && testObjectMode == TestObjectMode.addHorizontalForce)
+        {
+            rb.AddForce(new Vector2(force, 0));
             addForce = false;
         }
     }
