@@ -6,7 +6,7 @@ public class TestObject : MonoBehaviour
 {
     private Rigidbody2D rb;
 
-    public float force = 100f;
+    public float force = 500f;
     private bool addForce;
 
     public enum TestObjectMode {addVerticalForce, addHorizontalForce, Something}
@@ -22,7 +22,7 @@ public class TestObject : MonoBehaviour
     void Update()
     {
         // Check for input
-        if (Input.GetKey(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.T))
             addForce = true;
     }
 

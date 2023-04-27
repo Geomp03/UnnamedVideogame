@@ -6,11 +6,14 @@ public class FreezeMechanic : MonoBehaviour
 {
     private Rigidbody2D rb;
 
-    private Vector2 vel;
+    public float freezeDuration;
+    public float useRate;
+    private float nextUse = 0f;
     private float angVel;
+    private Vector2 vel;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
@@ -18,22 +21,20 @@ public class FreezeMechanic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) && Time.time > nextUse)
         {
-            // FreezeObject;
-            vel = rb.velocity;
-            angVel = rb.angularVelocity;
-            rb.constraints = RigidbodyConstraints2D.FreezeAll;
-        }
-        if (Input.GetKeyUp(KeyCode.F))
-        {
-            // UnFreezeObject;
-            rb.constraints = RigidbodyConstraints2D.None;
-            rb.velocity = vel;
-            rb.angularVelocity = angVel;
+            nextUse = Time.time + useRate;
+            StartCoroutine(TimedFreeze(freezeDuration));
         }
     }
     
+    public IEnumerator TimedFreeze(float duration)
+    {
+        FreezeObject();
+        yield return new WaitForSeconds(duration);
+        UnFreezeObject();
+    }
+
     public void FreezeObject()
     {
         vel = rb.velocity;

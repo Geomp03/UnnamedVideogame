@@ -383,6 +383,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestObject
       objectReference: {fileID: 0}
+    - target: {fileID: 3910263587646761594, guid: 9809cee81a152c24180171773454f928, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3910263587646761595, guid: 9809cee81a152c24180171773454f928, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -429,7 +433,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3910263587646761596, guid: 9809cee81a152c24180171773454f928, type: 3}
       propertyPath: force
-      value: 100
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 3910263587646761596, guid: 9809cee81a152c24180171773454f928, type: 3}
       propertyPath: testObjectMode
@@ -459,6 +463,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed0461a7cb16ed4aacdeb913ca6f6c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  freezeDuration: 3
+  useRate: 1
 --- !u!1 &1635258972
 GameObject:
   m_ObjectHideFlags: 0
