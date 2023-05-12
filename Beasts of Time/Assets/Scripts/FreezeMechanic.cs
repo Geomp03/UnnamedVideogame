@@ -28,10 +28,10 @@ public class FreezeMechanic : MonoBehaviour
         }
     }
     
-    public IEnumerator TimedFreeze(float duration)
+    public IEnumerator TimedFreeze(float freezeDuration)
     {
         FreezeObject();
-        yield return new WaitForSeconds(duration);
+        yield return new WaitForSeconds(freezeDuration);
         UnFreezeObject();
     }
 
