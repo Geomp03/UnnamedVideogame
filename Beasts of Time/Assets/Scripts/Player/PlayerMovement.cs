@@ -5,16 +5,16 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D playerRB;
-    private SpriteRenderer spriteRenderer;
 
     [SerializeField] private float walkingSpeed = 5f;
     [SerializeField] private float jumpForce = 400f;
 
-    private float DirX, DirY;
-    private float rayDist;
+    public float DirX;
+    private Vector2 moveDir;
     private bool jumpInput;
+    private float rayDist = 0.1f;
     private int groundMask;
-    private bool isGrounded;
+    public bool isGrounded;
 
     private void Awake()
     {
@@ -30,13 +30,9 @@ public class PlayerMovement : MonoBehaviour
     {
         // Component refences
         playerRB = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
 
         // Get the ground layer index
         groundMask = 1 << LayerMask.NameToLayer("Ground");
-
-        // Determine the ray distance for ground detection using sprite size
-        rayDist = (spriteRenderer.bounds.size.y / 2) + 0.1f;
     }
 
     // Update is called once per frame
@@ -67,12 +63,12 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Player is not grounded");
         }
 
-
         // Update player movement from inputs
-        playerRB.velocity = new Vector2(DirX * walkingSpeed, playerRB.velocity.y);
+        moveDir = new Vector2(DirX * walkingSpeed, playerRB.velocity.y);
+        playerRB.velocity = moveDir;
 
         // Check for jump
-        if(jumpInput && isGrounded)
+        if (jumpInput && isGrounded)
         {
             playerRB.AddForce(new Vector2(0, jumpForce));
             jumpInput = false;
