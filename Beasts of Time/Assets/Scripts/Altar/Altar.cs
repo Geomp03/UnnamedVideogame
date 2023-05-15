@@ -25,8 +25,6 @@ public class Altar : MonoBehaviour
     {
         if (playerInRange)
         {
-            Debug.Log("Player in altar range");
-
             if (altarState == AltarState.Complete)
             {
                 altarUI.DisplayCompleteAltarMessage(altarActivated);
@@ -54,15 +52,12 @@ public class Altar : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // Calculate distance to player
         distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
 
         if (player.isGrounded && distanceToPlayer <= threshold)
-        {
             playerInRange = true;
-        }
         else
-        {
             playerInRange = false;
-        }
     }
 }

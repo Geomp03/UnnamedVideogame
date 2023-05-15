@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float DirX;
     private Vector2 moveDir;
-    private bool jumpInput;
+    public bool jumpInput;
     private float rayDist = 0.1f;
     private int groundMask;
     public bool isGrounded;
@@ -55,12 +55,12 @@ public class PlayerMovement : MonoBehaviour
         if (hit2D.collider != null)
         {
             isGrounded = true;
-            Debug.Log("Player is grounded");
+            // Debug.Log("Player is grounded");
         }
         else
         {
             isGrounded = false;
-            Debug.Log("Player is not grounded");
+            // Debug.Log("Player is not grounded");
         }
 
         // Update player movement from inputs
