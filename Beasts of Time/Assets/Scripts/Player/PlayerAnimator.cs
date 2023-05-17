@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
+    [SerializeField] private InputManager inputManager;
     private PlayerMovement movement;
     private SpriteRenderer rend;
     private Animator animator;
 
+    private float running;
+
     // Constants
     private const string IS_RUNNING = "IsRunning";
-    private const string IS_JUMPING = "IsJumping";
+    private const string JUMP = "JumpTrigger";
     private const string IS_GROUNDED = "IsGrounded";
 
     private void Awake()
@@ -20,21 +23,33 @@ public class PlayerAnimator : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+    private void Start()
+    {
+        // Listen for jump event
+        inputManager.OnJumpAction += InputManager_OnJumpAction;
+    }
+
     private void Update()
     {
         FlipSprite();
 
         // Temporary control of animation
         animator.SetBool(IS_GROUNDED, movement.isGrounded);
-        animator.SetBool(IS_JUMPING, movement.jumpInput);
-        animator.SetBool(IS_RUNNING, movement.DirX != 0);
+
+        running = inputManager.GetHorizontalMovementVector().x;
+        animator.SetBool(IS_RUNNING, running != 0);
+    }
+
+    private void InputManager_OnJumpAction(object sender, System.EventArgs e)
+    {
+        animator.SetTrigger(JUMP);
     }
 
     private void FlipSprite()
     {
-        if (movement.DirX > 0)
+        if (running > 0)
             rend.flipX = false;
-        else if(movement.DirX < 0)
+        else if(running < 0)
             rend.flipX = true;
     }
 }

@@ -4,21 +4,25 @@ using UnityEngine;
 
 public class Altar : MonoBehaviour
 {
+    [SerializeField] private InputManager inputManager;
     private PlayerMovement player;
     private AltarUI altarUI;
 
     private float distanceToPlayer;
+    private float distanceThreshold = 5f;
     private bool playerInRange;
-    private float threshold = 5f;
-    public bool altarActivated = false;
-    public enum AltarState { Complete, Incomplete }
-    public AltarState altarState = new AltarState();
+    private bool altarActivated = false;
+    private bool interact = false;
+    private enum AltarState { Complete, Incomplete }
+    [SerializeField] private AltarState altarState = new AltarState();
 
     // Start is called before the first frame update
     void Start()
     {
         player = FindObjectOfType<PlayerMovement>();
         altarUI = FindObjectOfType<AltarUI>();
+
+        inputManager.OnInteractAction += InputManager_OnInteractAction;
     }
 
     private void Update()
@@ -29,18 +33,20 @@ public class Altar : MonoBehaviour
             {
                 altarUI.DisplayCompleteAltarMessage(altarActivated);
 
-                if(Input.GetKeyDown(KeyCode.E))
+                if (interact)
                 {
                     altarActivated = !altarActivated;
+                    interact = false;
                 }
             }
             else if (altarState == AltarState.Incomplete)
             {
                 altarUI.DisplayIncompleteAltarMessage();
 
-                if (Input.GetKeyDown(KeyCode.E))
+                if (interact)
                 {
                     altarState = AltarState.Complete;
+                    interact = false;
                 }
             }
         }
@@ -55,9 +61,14 @@ public class Altar : MonoBehaviour
         // Calculate distance to player
         distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
 
-        if (player.isGrounded && distanceToPlayer <= threshold)
+        if (player.isGrounded && distanceToPlayer <= distanceThreshold)
             playerInRange = true;
         else
             playerInRange = false;
+    }
+
+    private void InputManager_OnInteractAction(object sender, System.EventArgs e)
+    {
+        interact = true;
     }
 }

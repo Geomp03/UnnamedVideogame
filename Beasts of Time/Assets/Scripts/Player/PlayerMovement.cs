@@ -6,12 +6,11 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D playerRB;
 
+    [SerializeField] private InputManager inputManager;
     [SerializeField] private float walkingSpeed = 5f;
     [SerializeField] private float jumpForce = 400f;
 
-    public float DirX;
     private Vector2 moveDir;
-    public bool jumpInput;
     private float rayDist = 0.1f;
     private int groundMask;
     public bool isGrounded;
@@ -33,45 +32,43 @@ public class PlayerMovement : MonoBehaviour
 
         // Get the ground layer index
         groundMask = 1 << LayerMask.NameToLayer("Ground");
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        // Check for horizontal movement inputs
-        DirX = Input.GetAxisRaw("Horizontal");
-
-        // Check if jump key is pressed - spacebar
-        if (Input.GetButtonDown("Jump"))
-            jumpInput = true;
+        // Listen for jump event
+        inputManager.OnJumpAction += InputManager_OnJumpAction;
     }
 
     // Physics based time step
     private void FixedUpdate()
     {
         // Check if the player is grounded
+        isGrounded = CheckForGround();
+
+        // Update player movement from inputs
+        Vector2 inputVector = inputManager.GetHorizontalMovementVector();
+
+        moveDir =  new Vector2(inputVector.x * walkingSpeed, playerRB.velocity.y);
+        playerRB.velocity = moveDir;
+    }
+
+    private void InputManager_OnJumpAction(object sender, System.EventArgs e)
+    {
+        if (isGrounded)
+            playerRB.AddForce(new Vector2(0, jumpForce));
+    }
+
+    private bool CheckForGround()
+    {
         RaycastHit2D hit2D = Physics2D.Raycast(transform.position, Vector2.down, rayDist, groundMask);
 
         if (hit2D.collider != null)
         {
-            isGrounded = true;
+            return true;
             // Debug.Log("Player is grounded");
         }
         else
         {
-            isGrounded = false;
+            return false;
             // Debug.Log("Player is not grounded");
-        }
-
-        // Update player movement from inputs
-        moveDir = new Vector2(DirX * walkingSpeed, playerRB.velocity.y);
-        playerRB.velocity = moveDir;
-
-        // Check for jump
-        if (jumpInput && isGrounded)
-        {
-            playerRB.AddForce(new Vector2(0, jumpForce));
-            jumpInput = false;
         }
     }
 }
