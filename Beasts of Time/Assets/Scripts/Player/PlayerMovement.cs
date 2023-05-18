@@ -9,10 +9,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private InputManager inputManager;
     [SerializeField] private float walkingSpeed = 5f;
     [SerializeField] private float jumpForce = 400f;
+    [SerializeField] private LayerMask groundMask;
 
-    private Vector2 moveDir;
-    private float rayDist = 0.1f;
-    private int groundMask;
     public bool isGrounded;
 
     private void Awake()
@@ -30,24 +28,15 @@ public class PlayerMovement : MonoBehaviour
         // Component refences
         playerRB = GetComponent<Rigidbody2D>();
 
-        // Get the ground layer index
-        groundMask = 1 << LayerMask.NameToLayer("Ground");
-
-        // Listen for jump event
+        // Listen for events
         inputManager.OnJumpAction += InputManager_OnJumpAction;
     }
 
     // Physics based time step
     private void FixedUpdate()
     {
-        // Check if the player is grounded
         isGrounded = CheckForGround();
-
-        // Update player movement from inputs
-        Vector2 inputVector = inputManager.GetHorizontalMovementVector();
-
-        moveDir =  new Vector2(inputVector.x * walkingSpeed, playerRB.velocity.y);
-        playerRB.velocity = moveDir;
+        HandleMovement();
     }
 
     private void InputManager_OnJumpAction(object sender, System.EventArgs e)
@@ -58,17 +47,26 @@ public class PlayerMovement : MonoBehaviour
 
     private bool CheckForGround()
     {
+        float rayDist = 0.1f;
         RaycastHit2D hit2D = Physics2D.Raycast(transform.position, Vector2.down, rayDist, groundMask);
 
         if (hit2D.collider != null)
         {
-            return true;
             // Debug.Log("Player is grounded");
+            return true;
         }
         else
         {
-            return false;
             // Debug.Log("Player is not grounded");
+            return false;
         }
+    }
+
+    private void HandleMovement()
+    {
+        Vector2 inputVector = inputManager.GetHorizontalMovementVector();
+
+        Vector2 moveDir = new Vector2(inputVector.x * walkingSpeed, playerRB.velocity.y);
+        playerRB.velocity = moveDir;
     }
 }

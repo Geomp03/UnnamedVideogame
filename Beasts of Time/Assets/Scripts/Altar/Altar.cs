@@ -1,20 +1,23 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Altar : MonoBehaviour
 {
+    //public event EventHandler OnAltarInteraction;
+
     [SerializeField] private InputManager inputManager;
     private PlayerMovement player;
     private AltarUI altarUI;
 
     private float distanceToPlayer;
-    private float distanceThreshold = 5f;
+    [SerializeField] private float distanceThreshold = 2f;
     private bool playerInRange;
     private bool altarActivated = false;
     private bool interact = false;
-    private enum AltarState { Complete, Incomplete }
-    [SerializeField] private AltarState altarState = new AltarState();
+    public enum AltarState { Complete, Incomplete }
+    public AltarState altarState = new AltarState();
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +38,7 @@ public class Altar : MonoBehaviour
 
                 if (interact)
                 {
+                    //OnAltarInteraction?.Invoke(this, altarActivated);
                     altarActivated = !altarActivated;
                     interact = false;
                 }
