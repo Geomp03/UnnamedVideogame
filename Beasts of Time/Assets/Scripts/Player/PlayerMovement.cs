@@ -5,28 +5,21 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D playerRB;
+    private InputManager inputManager;
 
-    [SerializeField] private InputManager inputManager;
     [SerializeField] private float walkingSpeed = 5f;
     [SerializeField] private float jumpForce = 400f;
     [SerializeField] private LayerMask groundMask;
 
-    public bool isGrounded;
-
-    private void Awake()
-    {
-#if UNITY_EDITOR
-        Debug.unityLogger.logEnabled = true;
-#else
-        Debug.unityLogget.logEnabled = false;
-#endif
-    }
+    private bool isGrounded;
+    private Vector2 moveDir;
 
     // Start is called before the first frame update
     void Start()
     {
         // Component refences
         playerRB = GetComponent<Rigidbody2D>();
+        inputManager = InputManager.Instance;
 
         // Listen for events
         inputManager.OnJumpAction += InputManager_OnJumpAction;
@@ -35,8 +28,14 @@ public class PlayerMovement : MonoBehaviour
     // Physics based time step
     private void FixedUpdate()
     {
+        // Check if player is Grounded
         isGrounded = CheckForGround();
-        HandleMovement();
+
+        // Handle Player movement
+        Vector2 inputVector = inputManager.GetHorizontalMovementVector();
+
+        moveDir = new Vector2(inputVector.x * walkingSpeed, playerRB.velocity.y);
+        playerRB.velocity = moveDir;
     }
 
     private void InputManager_OnJumpAction(object sender, System.EventArgs e)
@@ -44,6 +43,7 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded)
             playerRB.AddForce(new Vector2(0, jumpForce));
     }
+
 
     private bool CheckForGround()
     {
@@ -62,11 +62,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void HandleMovement()
+    public bool GroundedCheck()
     {
-        Vector2 inputVector = inputManager.GetHorizontalMovementVector();
+        return isGrounded;
+    }
 
-        Vector2 moveDir = new Vector2(inputVector.x * walkingSpeed, playerRB.velocity.y);
-        playerRB.velocity = moveDir;
+    public float GetMovement()
+    {
+        return moveDir.x;
     }
 }

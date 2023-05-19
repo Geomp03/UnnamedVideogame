@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
-    [SerializeField] private InputManager inputManager;
     private PlayerMovement movement;
     private SpriteRenderer rend;
     private Animator animator;
@@ -26,7 +25,7 @@ public class PlayerAnimator : MonoBehaviour
     private void Start()
     {
         // Listen for jump event
-        inputManager.OnJumpAction += InputManager_OnJumpAction;
+        InputManager.Instance.OnJumpAction += InputManager_OnJumpAction;
     }
 
     private void Update()
@@ -34,9 +33,9 @@ public class PlayerAnimator : MonoBehaviour
         FlipSprite();
 
         // Temporary control of animation
-        animator.SetBool(IS_GROUNDED, movement.isGrounded);
+        animator.SetBool(IS_GROUNDED, movement.GroundedCheck() );
 
-        running = inputManager.GetHorizontalMovementVector().x;
+        running = movement.GetMovement();
         animator.SetBool(IS_RUNNING, running != 0);
     }
 

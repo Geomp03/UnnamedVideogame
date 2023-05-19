@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
+    public static InputManager Instance { get; private set; }
+
     public event EventHandler OnJumpAction;
     public event EventHandler OnInteractAction;
 
@@ -16,8 +18,16 @@ public class InputManager : MonoBehaviour
         inputActions = new InputActions();
         inputActions.Player.Enable();
 
+        // Subscribe to relevant events from input actions
         inputActions.Player.Jump.performed += Jump_performed;
         inputActions.Player.Interact.performed += Interact_performed;
+
+        // Create singleton instance
+        if (Instance != null)
+        {
+            Debug.LogError("There is more than one InputManager instance");
+        }
+        Instance = this;
     }
 
     private void Interact_performed(InputAction.CallbackContext obj)

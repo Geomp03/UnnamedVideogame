@@ -25,11 +25,11 @@ public class AltarUI : MonoBehaviour
     {
         if (!altarActivated)
         {
-            message = "Press " + interactionKey + " to activate the altar";
+            message = "Activate [" + interactionKey + "]";
         }
         else
         {
-            message = "Press " + interactionKey + " to deactivate the altar";
+            message = "Deactivate [" + interactionKey + "]";
         }
         
         altarText.text = message;
@@ -38,7 +38,7 @@ public class AltarUI : MonoBehaviour
 
     public void DisplayIncompleteAltarMessage()
     {
-        message = "Press" + interactionKey + "to place the orb";
+        message = "Place orb [" + interactionKey + "]";
         altarText.text = message;
         altarText.enabled = true;
     }
