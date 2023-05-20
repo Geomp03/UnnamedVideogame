@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, ITimeBubble
 {
     private Rigidbody2D playerRB;
     private InputManager inputManager;
@@ -60,6 +60,19 @@ public class PlayerMovement : MonoBehaviour
             // Debug.Log("Player is not grounded");
             return false;
         }
+    }
+
+    public void SlowDownTimePerception()
+    {
+        Debug.Log("Slow down time perception for player");
+    }
+    public void SpeedUpTimePerception()
+    {
+        Debug.Log("Speed up time perception for player");
+    }
+    public void ResetTimePerception()
+    {
+        Debug.Log("Reset time perception for player");
     }
 
     public bool GroundedCheck()

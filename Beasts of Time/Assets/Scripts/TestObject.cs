@@ -2,20 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestObject : MonoBehaviour
+public class TestObject : MonoBehaviour, ITimeBubble
 {
-    private Rigidbody2D rb;
-
-    public float force = 500f;
-    private bool addForce;
-
-    public enum TestObjectMode {addVerticalForce, addHorizontalForce, Something}
+    public enum TestObjectMode { moveAB, addVerticalForce, addHorizontalForce, }
     public TestObjectMode testObjectMode = new TestObjectMode();
 
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Transform pointA;
+    [SerializeField] private Transform pointB;
+
+    [SerializeField] private float speed = 10f;
+    [SerializeField] private float speedModifier = 1f;
+    private bool performeAction = false;
+    private Transform target;
+
+    private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        transform.position = pointA.position;
+        target = pointB;
     }
 
     // Update is called once per frame
@@ -23,21 +26,32 @@ public class TestObject : MonoBehaviour
     {
         // Check for input
         if (Input.GetKeyDown(KeyCode.T))
-            addForce = true;
+            performeAction = !performeAction;
+
+        // Move test object from point A to point B or back
+        if (performeAction && testObjectMode == TestObjectMode.moveAB)
+        {
+            if (transform.position == pointA.position) target = pointB;
+            if (transform.position == pointB.position) target = pointA;
+
+            float step = speed * speedModifier * Time.deltaTime;
+            transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+        }
     }
 
-    private void FixedUpdate()
+    public void SlowDownTimePerception()
     {
-        if (addForce && testObjectMode == TestObjectMode.addVerticalForce)
-        {
-            rb.AddForce(new Vector2(0, force));
-            addForce = false;
-        }
-
-        if (addForce && testObjectMode == TestObjectMode.addHorizontalForce)
-        {
-            rb.AddForce(new Vector2(force, 0));
-            addForce = false;
-        }
+        Debug.Log("Slow down time perception for " + this);
+        speedModifier = 0.25f;
+    }
+    public void SpeedUpTimePerception()
+    {
+        Debug.Log("Speed up time perception for " + this);
+        speedModifier = 4f;
+    }
+    public void ResetTimePerception()
+    {
+        Debug.Log("Reset time perception for " + this);
+        speedModifier = 1f;
     }
 }

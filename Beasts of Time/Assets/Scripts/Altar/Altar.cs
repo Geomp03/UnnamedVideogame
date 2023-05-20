@@ -9,7 +9,7 @@ public class Altar : MonoBehaviour
     public event EventHandler OnTriggerAltarInteraction;
 
     private PlayerMovement player;
-    private AltarUI altarUI;
+    private AltarText altarText;
 
     [SerializeField] private float distanceThreshold = 2f;
     private bool playerInRange;
@@ -23,35 +23,31 @@ public class Altar : MonoBehaviour
     void Start()
     {
         player = FindObjectOfType<PlayerMovement>();
-        altarUI = FindObjectOfType<AltarUI>();
+        altarText = GetComponent<AltarText>();
 
         InputManager.Instance.OnInteractAction += InputManager_OnInteractAction;
     }
 
+    private void Update()
+    {
+        if (playerInRange)
+        {
+            if (altarState == AltarState.Complete)          altarText.DisplayCompleteAltarMessage(altarActivated);
+            else if (altarState == AltarState.Incomplete)   altarText.DisplayIncompleteAltarMessage();
+        }
+    }
+
     private void FixedUpdate()
     {
-        // Calculate distance to player
-        if ( player.GroundedCheck() )
+        if (!playerInRange && PlayerInRange())
         {
-            if ( !playerInRange && PlayerInRange() )
-            {
-                playerInRange = true;
-                if (altarState == AltarState.Complete)
-                {
-                    altarUI.DisplayCompleteAltarMessage(altarActivated);
-                }
-                else if (altarState == AltarState.Incomplete)
-                {
-                    altarUI.DisplayIncompleteAltarMessage();
-                }
-            }
-            if ( playerInRange && !PlayerInRange() )
-            {
-                playerInRange = false;
-                altarUI.HideMessage();
-            }
+            playerInRange = true;
         }
-        
+        if (playerInRange && !PlayerInRange())
+        {
+            playerInRange = false;
+            altarText.HideMessageBubble();
+        }
     }
 
     private void InputManager_OnInteractAction(object sender, System.EventArgs e)
@@ -86,11 +82,16 @@ public class Altar : MonoBehaviour
 
     private bool PlayerInRange()
     {
-        float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
+        if (player.GroundedCheck())
+        {
+            float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
 
-        if (distanceToPlayer <= distanceThreshold)
-            return true;
-        else
+            if (distanceToPlayer <= distanceThreshold)
+                return true;
+            else
+                return false;
+        }
+        else 
             return false;
     }
 }
