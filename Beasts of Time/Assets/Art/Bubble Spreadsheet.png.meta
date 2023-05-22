@@ -1,10 +1,7 @@
 fileFormatVersion: 2
-guid: c91083fcbac8c1d42a586b1f36c2b537
+guid: 586fb4ef9b1c6d349a97a56d4052c3d2
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: -9095717837082945937
-    second: Capsule
+  internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -36,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -45,17 +42,17 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 256
+  spritePixelsToUnits: 48
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: 0
+  spriteTessellationDetail: -1
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -66,14 +63,14 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
-  cookieLightType: 1
+  cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -82,30 +79,6 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: iPhone
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -144,96 +117,70 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Capsule
+      name: Bubble Spreadsheet_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 256
-        height: 512
+        x: 3
+        y: 60
+        width: 42
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: -33, y: 256}
-        - {x: -95, y: 223}
-        - {x: -128, y: 161}
-        - {x: -128, y: -161}
-        - {x: -95, y: -223}
-        - {x: -33, y: -256}
-        - {x: 33, y: -256}
-        - {x: 95, y: -223}
-        - {x: 128, y: -161}
-        - {x: 128, y: 161}
-        - {x: 95, y: 223}
-        - {x: 33, y: 256}
-      physicsShape:
-      - - {x: 0, y: 256}
-        - {x: -39, y: 249}
-        - {x: -75, y: 231}
-        - {x: -103, y: 203}
-        - {x: -121, y: 167}
-        - {x: -128, y: 128}
-        - {x: -128, y: -128}
-        - {x: -121, y: -167}
-        - {x: -103, y: -203}
-        - {x: -75, y: -231}
-        - {x: -39, y: -249}
-        - {x: 0, y: -256}
-        - {x: 39, y: -249}
-        - {x: 75, y: -231}
-        - {x: 103, y: -203}
-        - {x: 121, y: -167}
-        - {x: 128, y: -128}
-        - {x: 128, y: 128}
-        - {x: 121, y: 167}
-        - {x: 103, y: 203}
-        - {x: 75, y: 231}
-        - {x: 39, y: 249}
+      border: {x: 15, y: 6, z: 5, w: 2}
+      outline: []
+      physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f669c7f71d485c180800000000000000
-      internalID: -9095717837082945937
+      spriteID: d4d6dce387e95f747baeec2f368040bf
+      internalID: -1142217599
       vertices: []
       indices: 
       edges: []
       weights: []
-    outline:
-    - - {x: -33, y: 256}
-      - {x: -95, y: 223}
-      - {x: -128, y: 161}
-      - {x: -128, y: -161}
-      - {x: -95, y: -223}
-      - {x: -33, y: -256}
-      - {x: 33, y: -256}
-      - {x: 95, y: -223}
-      - {x: 128, y: -161}
-      - {x: 128, y: 161}
-      - {x: 95, y: 223}
-      - {x: 33, y: 256}
-    physicsShape:
-    - - {x: 0, y: 256}
-      - {x: -39, y: 249}
-      - {x: -75, y: 231}
-      - {x: -103, y: 203}
-      - {x: -121, y: 167}
-      - {x: -128, y: 128}
-      - {x: -128, y: -128}
-      - {x: -121, y: -167}
-      - {x: -103, y: -203}
-      - {x: -75, y: -231}
-      - {x: -39, y: -249}
-      - {x: 0, y: -256}
-      - {x: 39, y: -249}
-      - {x: 75, y: -231}
-      - {x: 103, y: -203}
-      - {x: 121, y: -167}
-      - {x: 128, y: -128}
-      - {x: 128, y: 128}
-      - {x: 121, y: 167}
-      - {x: 103, y: 203}
-      - {x: 75, y: 231}
-      - {x: 39, y: 249}
+    - serializedVersion: 2
+      name: Bubble Spreadsheet_1
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 33
+        width: 42
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 5, y: 6, z: 15, w: 2}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b7c8de460b8a07458c04c96b61ae7bf
+      internalID: -823077135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bubble Spreadsheet_2
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 6
+        width: 42
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 4, y: 6, z: 4, w: 2}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3950f161251b28f428b5d71477af5832
+      internalID: -1986030864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
@@ -243,7 +190,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Capsule: -9095717837082945937
+      Bubble Spreadsheet_0: -1142217599
+      Bubble Spreadsheet_2: -1986030864
+      Bubble Spreadsheet_1: -823077135
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

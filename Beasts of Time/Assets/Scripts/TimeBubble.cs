@@ -18,29 +18,25 @@ public class TimeBubble : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision);
-        ITimeBubble timeBubble = collision.GetComponent<ITimeBubble>();
-        if (timeBubble != null)
+        ITimeBubbleAffectable affectable = collision.GetComponent<ITimeBubbleAffectable>();
+
+        if (affectable != null)
         {
-            if (timeBubbleType == TimeBubbleType.SlowDown)
-                timeBubble.SlowDownTimePerception();
-            else if (timeBubbleType == TimeBubbleType.SpeedUp)
-                timeBubble.SpeedUpTimePerception();
+            if (timeBubbleType == TimeBubbleType.SlowDown)      affectable.SlowDownTimePerception();
+            else if (timeBubbleType == TimeBubbleType.SpeedUp)  affectable.SpeedUpTimePerception();
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        ITimeBubble timeBubble = collision.GetComponent<ITimeBubble>();
-        if (timeBubble != null)
-        {
-            timeBubble.ResetTimePerception();
-        }
+        ITimeBubbleAffectable affectable = collision.GetComponent<ITimeBubbleAffectable>();
+
+        if (affectable != null)
+            affectable.ResetTimePerception();
     }
 
     private void Altar_OnBoolAltarInteraction(bool obj)
     {
-        Debug.Log("Boolean altar event received at " + this + " as " + obj);
         // Enable/Disable time bubble collider and visual
         timeBubbleVisual.SetActive(obj);
         this.GetComponent<Collider2D>().enabled = obj;
@@ -48,7 +44,7 @@ public class TimeBubble : MonoBehaviour
 
 }
 
-public interface ITimeBubble
+public interface ITimeBubbleAffectable
 {
     void SlowDownTimePerception();
     void SpeedUpTimePerception();

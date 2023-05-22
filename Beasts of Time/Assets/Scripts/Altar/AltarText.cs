@@ -6,10 +6,12 @@ using TMPro;
 
 public class AltarText : MonoBehaviour
 {
-    [SerializeField] private GameObject altarTextObject;
-    [SerializeField] private SpriteRenderer background;
-    [SerializeField] private TMP_Text text;
-
+    [SerializeField] private Sprite bubbleSpriteLeft;
+    [SerializeField] private Sprite bubbleSpriteRight;
+    [SerializeField] private Transform player;
+    [SerializeField] private SpriteRenderer altarTextBackground;
+    [SerializeField] private TMP_Text altarText;
+    [SerializeField] private RectTransform altarTextTransform;
     public string interactionKey = "E";
     
 
@@ -28,23 +30,56 @@ public class AltarText : MonoBehaviour
         string message = "Place orb [" + interactionKey + "]";
         SetupMessageBubble(message);
     }
-
+    public void HideMessageBubble()
+    {
+        altarTextBackground.enabled = false;
+        altarText.enabled = false;
+    }
     private void SetupMessageBubble(string message)
     {
         // Set message to bubble
-        text.SetText(message);
+        altarText.SetText(message);
+
+        // Decide on chatbubble
+        ChooseMessageBubble();
 
         // Get text size and adjust background size
-        text.ForceMeshUpdate();
-        Vector2 textSize = text.GetRenderedValues(false);
-        Vector2 padding = new Vector2(2f, 1f);
-        background.size = textSize + padding;
+        altarText.ForceMeshUpdate();
+        Vector2 textSize = altarText.GetRenderedValues(false);
+
+        Vector2 padding = new Vector2(0.8f, 0.3f);
+        altarTextBackground.size = textSize + padding;
+
+        if (altarTextBackground.sprite == bubbleSpriteRight)
+        {
+            altarTextBackground.transform.localPosition = new Vector2((-altarTextBackground.size.x / 2f) + 0.15f, 0.2f);
+            altarTextTransform.localPosition = new Vector2(-0.3f, 0.25f);
+        }
+        else if (altarTextBackground.sprite == bubbleSpriteLeft)
+        {
+            altarTextBackground.transform.localPosition = new Vector2((altarTextBackground.size.x / 2f) - 0.15f, 0.2f);
+            altarTextTransform.localPosition = new Vector2(0.3f, 0.25f);
+        }
 
         // Enable text object
-        altarTextObject.SetActive(true);
+        altarTextBackground.enabled = true;
+        altarText.enabled = true;
     }
-    public void HideMessageBubble()
+    private void ChooseMessageBubble()
     {
-        altarTextObject.SetActive(false);
+        Vector2 relativePosition = transform.InverseTransformPoint(player.transform.position);
+
+        if (relativePosition.x > 0)
+        {
+            // Player is to the right of the altar
+            altarTextBackground.sprite = bubbleSpriteRight;
+            altarText.alignment = TextAlignmentOptions.MidlineRight;
+        }
+        else if (relativePosition.x < 0)
+        {
+            // Player is to the left of the altar
+            altarTextBackground.sprite = bubbleSpriteLeft;
+            altarText.alignment = TextAlignmentOptions.MidlineLeft;
+        }
     }
 }

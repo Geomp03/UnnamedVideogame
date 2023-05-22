@@ -61,9 +61,8 @@ public class RewindMechanic : MonoBehaviour
         // When rewinding always take the first node of the fixed list, then remove it...
         if (timeMemory.Count > 0)
         {
-            PointInTime temp2 = timeMemory.First.Value;
-            transform.position = temp2.position;
-            transform.rotation = temp2.rotation;
+            PointInTime temp = timeMemory.First.Value;
+            transform.SetPositionAndRotation(temp.position, temp.rotation);
             timeMemory.RemoveFirst();
         }
         else

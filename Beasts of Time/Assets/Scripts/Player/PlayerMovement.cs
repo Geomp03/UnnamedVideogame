@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour, ITimeBubble
+public class PlayerMovement : MonoBehaviour, ITimeBubbleAffectable
 {
     private Rigidbody2D playerRB;
     private InputManager inputManager;

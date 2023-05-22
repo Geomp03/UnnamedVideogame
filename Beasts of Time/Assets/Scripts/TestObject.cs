@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestObject : MonoBehaviour, ITimeBubble
+public class TestObject : MonoBehaviour, ITimeBubbleAffectable
 {
     public enum TestObjectMode { moveAB, addVerticalForce, addHorizontalForce, }
     public TestObjectMode testObjectMode = new TestObjectMode();

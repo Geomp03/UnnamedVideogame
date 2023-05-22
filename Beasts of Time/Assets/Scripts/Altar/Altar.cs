@@ -11,14 +11,18 @@ public class Altar : MonoBehaviour
     private PlayerMovement player;
     private AltarText altarText;
 
+    [Header("Altar Settings")]
     [SerializeField] private float distanceThreshold = 2f;
-    private bool playerInRange;
-    private bool altarActivated = false;
-    public enum AltarType { TriggerAltar, BoolAltar, TimedAltar }
-    public AltarType altarType = new AltarType();
+    [SerializeField] private float interactionCooldown = 3f;
     public enum AltarState { Complete, Incomplete }
     public AltarState altarState = new AltarState();
+    public enum AltarType { TriggerAltar, BoolAltar, TimedAltar }
+    public AltarType altarType = new AltarType();
 
+    [SerializeField] private float timedAltarDuration = 3f;
+    private float delay;
+    private bool playerInRange;
+    private bool altarActivated = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -52,28 +56,35 @@ public class Altar : MonoBehaviour
 
     private void InputManager_OnInteractAction(object sender, System.EventArgs e)
     {
-        if (playerInRange)
+        if (Time.time > delay)
         {
-            if (altarState == AltarState.Incomplete) // Add condition that check if the player currently holds an orb
+            // Interaction cooldown check logic
+            delay = Time.time + interactionCooldown;
+
+            // Interaction logic
+            if (playerInRange)
             {
-                altarState = AltarState.Complete;
-            }
-            else if (altarState == AltarState.Complete)
-            {
-                switch (altarType)
+                if (altarState == AltarState.Incomplete) // Add condition that check if the player currently holds an orb
                 {
-                    case AltarType.TriggerAltar:
-                        OnTriggerAltarInteraction?.Invoke(this, EventArgs.Empty);
-                        break;
+                    altarState = AltarState.Complete;
+                }
+                else if (altarState == AltarState.Complete)
+                {
+                    switch (altarType)
+                    {
+                        case AltarType.TriggerAltar:
+                            OnTriggerAltarInteraction?.Invoke(this, EventArgs.Empty);
+                            break;
 
-                    case AltarType.BoolAltar:
-                        altarActivated = !altarActivated;
-                        OnBoolAltarInteraction?.Invoke(altarActivated);
-                        break;
+                        case AltarType.BoolAltar:
+                            altarActivated = !altarActivated;
+                            OnBoolAltarInteraction?.Invoke(altarActivated);
+                            break;
 
-                    case AltarType.TimedAltar:
-                        Debug.Log("Timed altar");
-                        break;
+                        case AltarType.TimedAltar:
+                            StartCoroutine(TimedAltarActivation(timedAltarDuration));
+                            break;
+                    }
                 }
             }
         }
@@ -93,5 +104,14 @@ public class Altar : MonoBehaviour
         }
         else 
             return false;
+    }
+
+    private IEnumerator TimedAltarActivation(float duration)
+    {
+        altarActivated = true;
+        OnBoolAltarInteraction?.Invoke(altarActivated);
+        yield return new WaitForSeconds(duration);
+        Debug.Log(altarActivated);
+        OnBoolAltarInteraction?.Invoke(altarActivated);
     }
 }
