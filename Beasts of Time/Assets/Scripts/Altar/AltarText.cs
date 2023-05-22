@@ -8,12 +8,17 @@ public class AltarText : MonoBehaviour
 {
     [SerializeField] private Sprite bubbleSpriteLeft;
     [SerializeField] private Sprite bubbleSpriteRight;
-    [SerializeField] private Transform player;
     [SerializeField] private SpriteRenderer altarTextBackground;
     [SerializeField] private TMP_Text altarText;
     [SerializeField] private RectTransform altarTextTransform;
+
+    private Player player;
     public string interactionKey = "E";
-    
+
+    private void Start()
+    {
+        player = Player.Instance;
+    }
 
     public void DisplayCompleteAltarMessage(bool altarActivated)
     {

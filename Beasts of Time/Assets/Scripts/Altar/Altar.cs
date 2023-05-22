@@ -8,7 +8,7 @@ public class Altar : MonoBehaviour
     public event Action<bool> OnBoolAltarInteraction;
     public event EventHandler OnTriggerAltarInteraction;
 
-    private PlayerMovement player;
+    private Player player;
     private AltarText altarText;
 
     [Header("Altar Settings")]
@@ -23,10 +23,11 @@ public class Altar : MonoBehaviour
     private float delay;
     private bool playerInRange;
     private bool altarActivated = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        player = FindObjectOfType<PlayerMovement>();
+        player = Player.Instance;
         altarText = GetComponent<AltarText>();
 
         InputManager.Instance.OnInteractAction += InputManager_OnInteractAction;

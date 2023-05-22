@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour, ITimeBubbleAffectable
+public class Player : MonoBehaviour, ITimeBubbleAffectable
 {
+    public static Player Instance { get; private set; }
+
     private Rigidbody2D playerRB;
     private InputManager inputManager;
 
@@ -13,6 +15,16 @@ public class PlayerMovement : MonoBehaviour, ITimeBubbleAffectable
 
     private bool isGrounded;
     private Vector2 moveDir;
+
+    private void Awake()
+    {
+        // Create singleton instance
+        if (Instance != null)
+        {
+            Debug.LogError("There is more than one InputManager instance");
+        }
+        Instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()

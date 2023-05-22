@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
-    private PlayerMovement movement;
+    private Player player;
     private SpriteRenderer rend;
     private Animator animator;
 
@@ -15,15 +15,13 @@ public class PlayerAnimator : MonoBehaviour
     private const string JUMP = "JumpTrigger";
     private const string IS_GROUNDED = "IsGrounded";
 
-    private void Awake()
-    {
-        movement = GetComponentInParent<PlayerMovement>();
-        rend = GetComponent<SpriteRenderer>();
-        animator = GetComponent<Animator>();
-    }
-
     private void Start()
     {
+        // Get referenced components
+        player = Player.Instance;
+        rend = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
+
         // Listen for jump event
         InputManager.Instance.OnJumpAction += InputManager_OnJumpAction;
     }
@@ -33,9 +31,9 @@ public class PlayerAnimator : MonoBehaviour
         FlipSprite();
 
         // Temporary control of animation
-        animator.SetBool(IS_GROUNDED, movement.GroundedCheck() );
+        animator.SetBool(IS_GROUNDED, player.GroundedCheck() );
 
-        running = movement.GetMovement();
+        running = player.GetMovement();
         animator.SetBool(IS_RUNNING, running != 0);
     }
 
