@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour, ITimeBubbleAffectable
+public class Player : MonoBehaviour
 {
     public static Player Instance { get; private set; }
 
@@ -18,10 +18,10 @@ public class Player : MonoBehaviour, ITimeBubbleAffectable
 
     private void Awake()
     {
-        // Create singleton instance
+        // Create Player singleton instance
         if (Instance != null)
         {
-            Debug.LogError("There is more than one InputManager instance");
+            Debug.LogError("There is more than one Player instance");
         }
         Instance = this;
     }
@@ -53,7 +53,10 @@ public class Player : MonoBehaviour, ITimeBubbleAffectable
     private void InputManager_OnJumpAction(object sender, System.EventArgs e)
     {
         if (isGrounded)
+        {
+            // Debug.Log("Jump");
             playerRB.AddForce(new Vector2(0, jumpForce));
+        }
     }
 
 
@@ -74,19 +77,6 @@ public class Player : MonoBehaviour, ITimeBubbleAffectable
         }
     }
 
-    public void SlowDownTimePerception()
-    {
-        Debug.Log("Slow down time perception for player");
-    }
-    public void SpeedUpTimePerception()
-    {
-        Debug.Log("Speed up time perception for player");
-    }
-    public void ResetTimePerception()
-    {
-        Debug.Log("Reset time perception for player");
-    }
-
     public bool GroundedCheck()
     {
         return isGrounded;
@@ -95,5 +85,10 @@ public class Player : MonoBehaviour, ITimeBubbleAffectable
     public float GetMovement()
     {
         return moveDir.x;
+    }
+
+    public Vector2 GetVelocity()
+    {
+        return playerRB.velocity;
     }
 }

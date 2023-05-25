@@ -10,6 +10,7 @@ public class InputManager : MonoBehaviour
 
     public event EventHandler OnJumpAction;
     public event EventHandler OnInteractAction;
+    public event Action<bool> OnRewindAction;
 
     private InputActions inputActions;
 
@@ -21,8 +22,10 @@ public class InputManager : MonoBehaviour
         // Subscribe to relevant events from input actions
         inputActions.Player.Jump.performed += Jump_performed;
         inputActions.Player.Interact.performed += Interact_performed;
+        inputActions.Player.Rewind.started += Rewind_started;
+        inputActions.Player.Rewind.canceled += Rewind_canceled;
 
-        // Create singleton instance
+        // Create InputManager singleton instance
         if (Instance != null)
         {
             Debug.LogError("There is more than one InputManager instance");
@@ -30,16 +33,32 @@ public class InputManager : MonoBehaviour
         Instance = this;
     }
 
+    // Player rewind input event
+    private void Rewind_canceled(InputAction.CallbackContext obj)
+    {
+        Debug.Log("Rewind canceled");
+        OnRewindAction?.Invoke(false);
+    }
+
+    private void Rewind_started(InputAction.CallbackContext obj)
+    {
+        Debug.Log("Rewind started");
+        OnRewindAction?.Invoke(true);
+    }
+
+    // Interact button event
     private void Interact_performed(InputAction.CallbackContext obj)
     {
         OnInteractAction?.Invoke(this, EventArgs.Empty);
     }
 
+    // Jump input event
     private void Jump_performed(InputAction.CallbackContext obj)
     {
         OnJumpAction?.Invoke(this, EventArgs.Empty);
     }
 
+    // Horizontal movement input event
     public Vector2 GetHorizontalMovementVector()
     {
         Vector2 inputVector = new Vector2(0, 0);

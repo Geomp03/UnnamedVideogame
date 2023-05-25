@@ -14,6 +14,8 @@ public class PlayerAnimator : MonoBehaviour
     private const string IS_RUNNING = "IsRunning";
     private const string JUMP = "JumpTrigger";
     private const string IS_GROUNDED = "IsGrounded";
+    private const string VELOCITY = "Velocity";
+
 
     private void Start()
     {

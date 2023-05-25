@@ -13,7 +13,7 @@ public class TimeBubble : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        altar.OnBoolAltarInteraction += Altar_OnBoolAltarInteraction;
+        altar.OnBoolAltarInteraction += OnBoolAltarInteraction;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -35,7 +35,7 @@ public class TimeBubble : MonoBehaviour
             affectable.ResetTimePerception();
     }
 
-    private void Altar_OnBoolAltarInteraction(bool obj)
+    private void OnBoolAltarInteraction(bool obj)
     {
         // Enable/Disable time bubble collider and visual
         timeBubbleVisual.SetActive(obj);

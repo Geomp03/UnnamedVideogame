@@ -9,29 +9,29 @@ public class RewindMechanic : MonoBehaviour
     /* This is currently implemented with a linked list. To further improve 
      * performance consider using a fixed array (circular array)... */
 
-    private bool hasRB;
     private bool isRewinding = false;
     public float rewindTime = 5f;
 
     // Start is called before the first frame update
     void Start()
     {
-        hasRB = TryGetComponent(out Rigidbody2D rigidbody);
         // Get a reference to the rigidbody IF it exists.
-        if (hasRB)
-            rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
+
+        // Player control
+        if (CompareTag("Player"))
+        {
+            Debug.Log("Rewind found on player");
+            InputManager.Instance.OnRewindAction += InputManager_OnRewindAction;
+        }
 
         timeMemory = new LinkedList<PointInTime>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void InputManager_OnRewindAction(bool obj)
     {
-        // Temporary control...
-        if (Input.GetKeyDown(KeyCode.R))
-            StartRewind();
-        if (Input.GetKeyUp(KeyCode.R))
-            StopRewind();
+        if (obj == true)    StartRewind();
+        else                StopRewind();
     }
 
     private void FixedUpdate()
@@ -45,14 +45,14 @@ public class RewindMechanic : MonoBehaviour
     void StartRewind()
     {
         isRewinding = true;
-        if (hasRB)
+        if (rb != null)
             rb.isKinematic = true;
     }
 
     void StopRewind()
     {
         isRewinding = false;
-        if (hasRB)
+        if (rb != null)
             rb.isKinematic = false;
     }
 

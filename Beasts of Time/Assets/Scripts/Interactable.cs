@@ -4,17 +4,9 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    private Player player;
-
-    // Start is called before the first frame update
-    void Start()
+    protected bool PlayerInRange(Player player, float distanceThreshold)
     {
-        player = Player.Instance;
-    }
-
-    public bool PlayerInRange(float distanceThreshold)
-    {
-        if (player.GroundedCheck() )
+        if (player.GroundedCheck())
         {
             float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
 

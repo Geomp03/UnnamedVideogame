@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Altar : MonoBehaviour
+public class Altar : Interactable
 {
     public event Action<bool> OnBoolAltarInteraction;
     public event EventHandler OnTriggerAltarInteraction;
@@ -11,26 +11,37 @@ public class Altar : MonoBehaviour
     private Player player;
     private AltarText altarText;
 
-    [Header("Altar Settings")]
+    [Header("Base Altar Settings")]
     [SerializeField] private float distanceThreshold = 2f;
-    [SerializeField] private float interactionCooldown = 3f;
     public enum AltarState { Complete, Incomplete }
     public AltarState altarState = new AltarState();
     public enum AltarType { TriggerAltar, BoolAltar, TimedAltar }
     public AltarType altarType = new AltarType();
 
+    [Header("Altar Specific Settings")]
     [SerializeField] private float timedAltarDuration = 3f;
-    private float delay;
+    private float interactionCooldown = 0f;
+    private float nextActionTime;
+
     private bool playerInRange;
     private bool altarActivated = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        // Get references
         player = Player.Instance;
         altarText = GetComponent<AltarText>();
 
+        // Subscribe to input manager events
         InputManager.Instance.OnInteractAction += InputManager_OnInteractAction;
+
+        // Set an interaction cooldown if using the timed altar
+        if (altarType == AltarType.TimedAltar)
+        {
+            interactionCooldown = timedAltarDuration;
+            Debug.Log("Set interaction cooldown for " + this + " to: " + interactionCooldown);
+        }
     }
 
     private void Update()
@@ -44,11 +55,15 @@ public class Altar : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!playerInRange && PlayerInRange())
+        // Equivalent of OnTriggerEnter/OnCollisionEnter but just with distance calculation
+        // (can simplify this if needed...
+        if (!playerInRange && PlayerInRange(player, distanceThreshold))
         {
             playerInRange = true;
         }
-        if (playerInRange && !PlayerInRange())
+
+        // Equivalent of OnTriggerExit/OnCollisionExit but just with distance calculation
+        if (playerInRange && !PlayerInRange(player, distanceThreshold))
         {
             playerInRange = false;
             altarText.HideMessageBubble();
@@ -57,10 +72,10 @@ public class Altar : MonoBehaviour
 
     private void InputManager_OnInteractAction(object sender, System.EventArgs e)
     {
-        if (Time.time > delay)
+        if (Time.time > nextActionTime)
         {
             // Interaction cooldown check logic
-            delay = Time.time + interactionCooldown;
+            nextActionTime = Time.time + interactionCooldown;
 
             // Interaction logic
             if (playerInRange)
@@ -92,27 +107,12 @@ public class Altar : MonoBehaviour
 
     }
 
-    private bool PlayerInRange()
-    {
-        if (player.GroundedCheck())
-        {
-            float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
-
-            if (distanceToPlayer <= distanceThreshold)
-                return true;
-            else
-                return false;
-        }
-        else 
-            return false;
-    }
-
     private IEnumerator TimedAltarActivation(float duration)
     {
         altarActivated = true;
         OnBoolAltarInteraction?.Invoke(altarActivated);
         yield return new WaitForSeconds(duration);
-        Debug.Log(altarActivated);
+        altarActivated = false;
         OnBoolAltarInteraction?.Invoke(altarActivated);
     }
 }
