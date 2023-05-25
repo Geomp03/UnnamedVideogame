@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    protected bool PlayerInRange(Player player, float distanceThreshold)
+    protected bool PlayerInRange(Player player, float interactionDistance)
     {
         if (player.GroundedCheck())
         {
             float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
 
-            if (distanceToPlayer <= distanceThreshold)
+            if (distanceToPlayer <= interactionDistance)
                 return true;
             else
                 return false;

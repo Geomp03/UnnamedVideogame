@@ -12,7 +12,7 @@ public class Altar : Interactable
     private AltarText altarText;
 
     [Header("Base Altar Settings")]
-    [SerializeField] private float distanceThreshold = 2f;
+    [SerializeField] private float interactionDistance = 2f;
     public enum AltarState { Complete, Incomplete }
     public AltarState altarState = new AltarState();
     public enum AltarType { TriggerAltar, BoolAltar, TimedAltar }
@@ -56,14 +56,13 @@ public class Altar : Interactable
     private void FixedUpdate()
     {
         // Equivalent of OnTriggerEnter/OnCollisionEnter but just with distance calculation
-        // (can simplify this if needed...
-        if (!playerInRange && PlayerInRange(player, distanceThreshold))
+        if (!playerInRange && PlayerInRange(player, interactionDistance))
         {
             playerInRange = true;
         }
 
         // Equivalent of OnTriggerExit/OnCollisionExit but just with distance calculation
-        if (playerInRange && !PlayerInRange(player, distanceThreshold))
+        if (playerInRange && !PlayerInRange(player, interactionDistance))
         {
             playerInRange = false;
             altarText.HideMessageBubble();

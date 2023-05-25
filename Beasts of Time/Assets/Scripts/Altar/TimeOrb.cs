@@ -6,7 +6,7 @@ public class TimeOrb : Interactable
 {
     private Player player;
 
-    [SerializeField] private float distanceThreshold = 2f;
+    [SerializeField] private float interactionDistance = 2f;
 
     // Start is called before the first frame update
     void Start()
@@ -20,15 +20,9 @@ public class TimeOrb : Interactable
 
     private void InputManager_OnInteractAction(object sender, System.EventArgs e)
     {
-        if (PlayerInRange(player, distanceThreshold))
+        if (PlayerInRange(player, interactionDistance))
         {
             Debug.Log("Interact with time orb");
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

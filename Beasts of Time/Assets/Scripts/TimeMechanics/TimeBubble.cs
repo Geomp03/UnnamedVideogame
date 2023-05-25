@@ -7,8 +7,8 @@ public class TimeBubble : MonoBehaviour
     [SerializeField] private Altar altar;
     [SerializeField] private GameObject timeBubbleVisual;
 
-    public enum TimeBubbleType { SlowDown, SpeedUp }
-    public TimeBubbleType timeBubbleType = new TimeBubbleType();
+    private enum TimeBubbleType { SlowDown, SpeedUp }
+    [SerializeField] private TimeBubbleType timeBubbleType = new TimeBubbleType();
 
     // Start is called before the first frame update
     void Start()

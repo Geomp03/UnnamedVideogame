@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class FreezeMechanic : MonoBehaviour
 {
-    private Rigidbody2D rb;
+    [SerializeField] private float freezeDuration;
+    private IFreezeMechanic freezeObject;
 
-    public float freezeDuration;
-    public float useRate;
+    private float useRate;
     private float nextUse = 0f;
-    private float angVel;
-    private Vector2 vel;
 
     // Start is called before the first frame update
     void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        freezeObject = GetComponent<IFreezeMechanic>();
+        useRate = freezeDuration + 0.5f;
     }
 
     // Update is called once per frame
@@ -30,22 +29,14 @@ public class FreezeMechanic : MonoBehaviour
     
     public IEnumerator TimedFreeze(float freezeDuration)
     {
-        FreezeObject();
+        freezeObject.FreezeObject();
         yield return new WaitForSeconds(freezeDuration);
-        UnFreezeObject();
+        freezeObject.UnfreezeObject();
     }
+}
 
-    public void FreezeObject()
-    {
-        vel = rb.velocity;
-        angVel = rb.angularVelocity;
-        rb.constraints = RigidbodyConstraints2D.FreezeAll;
-    }
-
-    public void UnFreezeObject()
-    {
-        rb.constraints = RigidbodyConstraints2D.None;
-        rb.velocity = vel;
-        rb.angularVelocity = angVel;
-    }
+public interface IFreezeMechanic
+{
+    void FreezeObject();
+    void UnfreezeObject();
 }
