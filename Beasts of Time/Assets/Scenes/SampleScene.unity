@@ -557,6 +557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionDistance: 2
+  timeOrbSO: {fileID: 11400000, guid: ed323bfe61ac414478571f35c73b20e8, type: 2}
 --- !u!4 &1754494820
 Transform:
   m_ObjectHideFlags: 0
@@ -787,7 +788,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1701057126735044098, guid: daff5a0f93214204491a32dfc54208b5, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1701057126735044099, guid: daff5a0f93214204491a32dfc54208b5, type: 3}
       propertyPath: m_LocalScale.x
@@ -852,7 +853,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2851235442213371294, guid: f5b1888d133f11c4fb5cc28b9d347b2d, type: 3}
       propertyPath: m_Name
-      value: AltarTextVisual
+      value: AltarUI
       objectReference: {fileID: 0}
     - target: {fileID: 2851235442213371294, guid: f5b1888d133f11c4fb5cc28b9d347b2d, type: 3}
       propertyPath: m_IsActive
@@ -924,7 +925,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2851235443131997631, guid: f5b1888d133f11c4fb5cc28b9d347b2d, type: 3}
       propertyPath: altarState
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2851235443131997631, guid: f5b1888d133f11c4fb5cc28b9d347b2d, type: 3}
       propertyPath: interactionCooldown

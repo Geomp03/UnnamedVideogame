@@ -86,9 +86,4 @@ public class Player : MonoBehaviour
     {
         return moveDir.x;
     }
-
-    public Vector2 GetVelocity()
-    {
-        return playerRB.velocity;
-    }
 }

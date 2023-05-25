@@ -5,14 +5,17 @@ using UnityEngine;
 public class TimeOrb : Interactable
 {
     private Player player;
+    private PlayerOrbInteractions playerOrbInteractions;
 
     [SerializeField] private float interactionDistance = 2f;
+    [SerializeField] private TimeOrbSO timeOrbSO;
 
     // Start is called before the first frame update
     void Start()
     {
         // Get references
         player = Player.Instance;
+        playerOrbInteractions = player.GetComponent<PlayerOrbInteractions>();
 
         // Subscribe to input manager events
         InputManager.Instance.OnInteractAction += InputManager_OnInteractAction;
@@ -22,7 +25,24 @@ public class TimeOrb : Interactable
     {
         if (PlayerInRange(player, interactionDistance))
         {
-            Debug.Log("Interact with time orb");
+            TimeOrbSO playerCurrentTimeOrbSO = playerOrbInteractions.GetTimeOrbSO();
+            if (playerCurrentTimeOrbSO == null)
+            {
+                // Player not holding any time orbs
+                playerOrbInteractions.SetTimeOrbSO(timeOrbSO);
+
+                // Unsubscribe from events
+                InputManager.Instance.OnInteractAction -= InputManager_OnInteractAction;
+
+                // Destroy object
+                Destroy(gameObject);
+            }
+            else
+            {
+                // Player already holding a time orb
+                Debug.Log("Player already holding a time orb");
+            }
+
         }
     }
 }

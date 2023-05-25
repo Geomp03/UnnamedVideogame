@@ -9,14 +9,15 @@ public class Altar : Interactable
     public event EventHandler OnTriggerAltarInteraction;
 
     private Player player;
+    private PlayerOrbInteractions playerOrbInteractions;
     private AltarText altarText;
 
     [Header("Base Altar Settings")]
     [SerializeField] private float interactionDistance = 2f;
     public enum AltarState { Complete, Incomplete }
     public AltarState altarState = new AltarState();
-    public enum AltarType { TriggerAltar, BoolAltar, TimedAltar }
-    public AltarType altarType = new AltarType();
+    private enum AltarType { TriggerAltar, BoolAltar, TimedAltar }
+    [SerializeField] private AltarType altarType = new AltarType();
 
     [Header("Altar Specific Settings")]
     [SerializeField] private float timedAltarDuration = 3f;
@@ -26,11 +27,14 @@ public class Altar : Interactable
     private bool playerInRange;
     private bool altarActivated = false;
 
+    private TimeOrbSO timeOrbSO;
+
     // Start is called before the first frame update
     void Start()
     {
         // Get references
         player = Player.Instance;
+        playerOrbInteractions = player.GetComponent<PlayerOrbInteractions>();
         altarText = GetComponent<AltarText>();
 
         // Subscribe to input manager events
@@ -79,9 +83,11 @@ public class Altar : Interactable
             // Interaction logic
             if (playerInRange)
             {
-                if (altarState == AltarState.Incomplete) // Add condition that check if the player currently holds an orb
+                if (altarState == AltarState.Incomplete && playerOrbInteractions.HoldingTimeOrb())
                 {
                     altarState = AltarState.Complete;
+                    timeOrbSO = playerOrbInteractions.GetTimeOrbSO();
+                    playerOrbInteractions.ClearTimeOrbSO();
                 }
                 else if (altarState == AltarState.Complete)
                 {
