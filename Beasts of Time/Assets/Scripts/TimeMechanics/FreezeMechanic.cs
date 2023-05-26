@@ -11,23 +11,24 @@ public class FreezeMechanic : MonoBehaviour
     private float nextUse = 0f;
 
     // Start is called before the first frame update
-    void Awake()
+    private void Start()
     {
         freezeObject = GetComponent<IFreezeMechanic>();
         useRate = freezeDuration + 0.5f;
+
+        InputManager.Instance.OnFreezeAction += InputManager_OnFreezeAction;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void InputManager_OnFreezeAction(object sender, System.EventArgs e)
     {
-        if (Input.GetKeyDown(KeyCode.F) && Time.time > nextUse)
+        if (Time.time > nextUse)
         {
             nextUse = Time.time + useRate;
             StartCoroutine(TimedFreeze(freezeDuration));
         }
     }
     
-    public IEnumerator TimedFreeze(float freezeDuration)
+    private IEnumerator TimedFreeze(float freezeDuration)
     {
         freezeObject.FreezeObject();
         yield return new WaitForSeconds(freezeDuration);

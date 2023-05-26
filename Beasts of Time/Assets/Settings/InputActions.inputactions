@@ -6,6 +6,15 @@
             "id": "627db7eb-ddbe-476b-b237-3cb4e568cfe6",
             "actions": [
                 {
+                    "name": "Horizontal Move",
+                    "type": "Value",
+                    "id": "e86a7a5f-2aa2-49af-9d28-5aa596673f2e",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Jump",
                     "type": "Button",
                     "id": "615c39de-7d6a-4cdd-903c-2c9fd62938f7",
@@ -24,13 +33,13 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Horizontal Move",
-                    "type": "Value",
-                    "id": "e86a7a5f-2aa2-49af-9d28-5aa596673f2e",
-                    "expectedControlType": "Axis",
+                    "name": "Freeze",
+                    "type": "Button",
+                    "id": "a8ffc4e2-759e-4860-aea5-d211bdafeaf6",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Rewind",
@@ -62,6 +71,17 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "faf6a98b-ced2-42c4-9d18-485e1f0bd31d",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Freeze",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

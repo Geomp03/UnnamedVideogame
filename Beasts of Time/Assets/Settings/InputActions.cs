@@ -28,6 +28,15 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
             ""id"": ""627db7eb-ddbe-476b-b237-3cb4e568cfe6"",
             ""actions"": [
                 {
+                    ""name"": ""Horizontal Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""e86a7a5f-2aa2-49af-9d28-5aa596673f2e"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""615c39de-7d6a-4cdd-903c-2c9fd62938f7"",
@@ -46,13 +55,13 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Horizontal Move"",
-                    ""type"": ""Value"",
-                    ""id"": ""e86a7a5f-2aa2-49af-9d28-5aa596673f2e"",
-                    ""expectedControlType"": ""Axis"",
+                    ""name"": ""Freeze"",
+                    ""type"": ""Button"",
+                    ""id"": ""a8ffc4e2-759e-4860-aea5-d211bdafeaf6"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": true
+                    ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""Rewind"",
@@ -84,6 +93,17 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""faf6a98b-ced2-42c4-9d18-485e1f0bd31d"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Freeze"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -183,9 +203,10 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
+        m_Player_HorizontalMove = m_Player.FindAction("Horizontal Move", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
-        m_Player_HorizontalMove = m_Player.FindAction("Horizontal Move", throwIfNotFound: true);
+        m_Player_Freeze = m_Player.FindAction("Freeze", throwIfNotFound: true);
         m_Player_Rewind = m_Player.FindAction("Rewind", throwIfNotFound: true);
     }
 
@@ -246,17 +267,19 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
+    private readonly InputAction m_Player_HorizontalMove;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Interact;
-    private readonly InputAction m_Player_HorizontalMove;
+    private readonly InputAction m_Player_Freeze;
     private readonly InputAction m_Player_Rewind;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
         public PlayerActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @HorizontalMove => m_Wrapper.m_Player_HorizontalMove;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
-        public InputAction @HorizontalMove => m_Wrapper.m_Player_HorizontalMove;
+        public InputAction @Freeze => m_Wrapper.m_Player_Freeze;
         public InputAction @Rewind => m_Wrapper.m_Player_Rewind;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -267,15 +290,18 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
             {
+                @HorizontalMove.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHorizontalMove;
+                @HorizontalMove.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHorizontalMove;
+                @HorizontalMove.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHorizontalMove;
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
-                @HorizontalMove.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHorizontalMove;
-                @HorizontalMove.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHorizontalMove;
-                @HorizontalMove.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHorizontalMove;
+                @Freeze.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFreeze;
+                @Freeze.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFreeze;
+                @Freeze.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFreeze;
                 @Rewind.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRewind;
                 @Rewind.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRewind;
                 @Rewind.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRewind;
@@ -283,15 +309,18 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
             {
+                @HorizontalMove.started += instance.OnHorizontalMove;
+                @HorizontalMove.performed += instance.OnHorizontalMove;
+                @HorizontalMove.canceled += instance.OnHorizontalMove;
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
-                @HorizontalMove.started += instance.OnHorizontalMove;
-                @HorizontalMove.performed += instance.OnHorizontalMove;
-                @HorizontalMove.canceled += instance.OnHorizontalMove;
+                @Freeze.started += instance.OnFreeze;
+                @Freeze.performed += instance.OnFreeze;
+                @Freeze.canceled += instance.OnFreeze;
                 @Rewind.started += instance.OnRewind;
                 @Rewind.performed += instance.OnRewind;
                 @Rewind.canceled += instance.OnRewind;
@@ -310,9 +339,10 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     }
     public interface IPlayerActions
     {
+        void OnHorizontalMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
-        void OnHorizontalMove(InputAction.CallbackContext context);
+        void OnFreeze(InputAction.CallbackContext context);
         void OnRewind(InputAction.CallbackContext context);
     }
 }
