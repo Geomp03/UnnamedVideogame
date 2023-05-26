@@ -26,7 +26,6 @@ public class Player : MonoBehaviour
         Instance = this;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         // Component refences
@@ -37,7 +36,6 @@ public class Player : MonoBehaviour
         inputManager.OnJumpAction += InputManager_OnJumpAction;
     }
 
-    // Physics based time step
     private void FixedUpdate()
     {
         // Check if player is Grounded
