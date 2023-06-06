@@ -17,10 +17,10 @@ public class TimeShift : MonoBehaviour
 
     private void Altar_OnTriggerAltarInteraction(object sender, System.EventArgs e)
     {
-        SwapPlayerAndPlayerClonePosition();
+        SwapPlayerAndPlayerClonePositions();
     }
 
-    private void SwapPlayerAndPlayerClonePosition()
+    private void SwapPlayerAndPlayerClonePositions()
     {
         player.transform.position = playerClone.transform.position;
         playerClone.ChangePlayerTimeline();

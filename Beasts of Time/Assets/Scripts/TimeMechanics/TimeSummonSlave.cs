@@ -4,18 +4,15 @@ using UnityEngine;
 
 public class TimeSummonSlave : MonoBehaviour
 {
-    private List<GameObject> objectsToTimeSummon;
+    [SerializeField] private int TimeSummonID;
 
-    private void Start()
-    {
-        objectsToTimeSummon = new List<GameObject>();
-    }
+    private List<GameObject> objectsToTimeSummon = new List<GameObject>();
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log(collision.gameObject + "in time summon area");
+            Debug.Log(collision.gameObject + " is in the time summon area");
             objectsToTimeSummon.Add(collision.gameObject);
         }
     }
@@ -24,7 +21,7 @@ public class TimeSummonSlave : MonoBehaviour
     {
         if (!collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log(collision.gameObject + "no longer in time summon area");
+            Debug.Log(collision.gameObject + " is no longer in the time summon area");
             objectsToTimeSummon.Remove(collision.gameObject);
         }
     }
@@ -32,5 +29,10 @@ public class TimeSummonSlave : MonoBehaviour
     public List<GameObject> ReturnObjectsToBeTimeSummoned()
     {
         return objectsToTimeSummon;
+    }
+
+    public int ReturnTimeSummonID()
+    {
+        return TimeSummonID;
     }
 }
