@@ -10,7 +10,7 @@ public class Altar : Interactable
 
     private Player player;
     private PlayerOrbInteractions playerOrbInteractions;
-    private AltarText altarText;
+    private AltarUI altarUI;
 
     [Header("Base Altar Settings")]
     [SerializeField] private float interactionDistance = 2f;
@@ -35,7 +35,7 @@ public class Altar : Interactable
         // Get references
         player = Player.Instance;
         playerOrbInteractions = player.GetComponent<PlayerOrbInteractions>();
-        altarText = GetComponent<AltarText>();
+        altarUI = GetComponentInChildren<AltarUI>();
 
         // Subscribe to input manager events
         InputManager.Instance.OnInteractAction += InputManager_OnInteractAction;
@@ -52,8 +52,8 @@ public class Altar : Interactable
     {
         if (playerInRange)
         {
-            if (altarState == AltarState.Complete)          altarText.DisplayCompleteAltarMessage(altarActivated);
-            else if (altarState == AltarState.Incomplete)   altarText.DisplayIncompleteAltarMessage();
+            if (altarState == AltarState.Complete)          altarUI.DisplayCompleteAltarMessage(altarActivated);
+            else if (altarState == AltarState.Incomplete)   altarUI.DisplayIncompleteAltarMessage();
         }
     }
 
@@ -69,7 +69,7 @@ public class Altar : Interactable
         if (playerInRange && !PlayerInRange(player, interactionDistance))
         {
             playerInRange = false;
-            altarText.HideMessageBubble();
+            altarUI.HideMessageBubble();
         }
     }
 

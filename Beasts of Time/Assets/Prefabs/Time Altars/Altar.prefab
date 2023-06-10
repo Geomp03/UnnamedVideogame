@@ -349,8 +349,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2851235442213371281}
+  - component: {fileID: 1610203256520714018}
   m_Layer: 0
-  m_Name: AltarTextVisual
+  m_Name: AltarUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -373,6 +374,23 @@ Transform:
   m_Father: {fileID: 2851235443131997628}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1610203256520714018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2851235442213371294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afbbe6f7f3597734a80875356f9e25e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bubbleSpriteLeft: {fileID: -1142217599, guid: 586fb4ef9b1c6d349a97a56d4052c3d2, type: 3}
+  bubbleSpriteRight: {fileID: -823077135, guid: 586fb4ef9b1c6d349a97a56d4052c3d2, type: 3}
+  altarTextBackground: {fileID: 2851235441719225487}
+  altarText: {fileID: 2851235442066900939}
+  altarTextTransform: {fileID: 2851235442066900936}
 --- !u!1 &2851235443131997629
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,7 +401,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2851235443131997628}
   - component: {fileID: 2851235443131997631}
-  - component: {fileID: 2851235443131997617}
   m_Layer: 0
   m_Name: Altar
   m_TagString: Untagged
@@ -420,25 +437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3f8811959d4abb46819286328ae4ccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceThreshold: 2
+  interactionDistance: 2
   altarState: 0
   altarType: 1
   timedAltarDuration: 3
---- !u!114 &2851235443131997617
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2851235443131997629}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afbbe6f7f3597734a80875356f9e25e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bubbleSpriteLeft: {fileID: -1142217599, guid: 586fb4ef9b1c6d349a97a56d4052c3d2, type: 3}
-  bubbleSpriteRight: {fileID: -823077135, guid: 586fb4ef9b1c6d349a97a56d4052c3d2, type: 3}
-  altarTextBackground: {fileID: 2851235441719225487}
-  altarText: {fileID: 2851235442066900939}
-  altarTextTransform: {fileID: 2851235442066900936}
-  interactionKey: E

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class AltarText : MonoBehaviour
+public class AltarUI : MonoBehaviour
 {
     [SerializeField] private Sprite bubbleSpriteLeft;
     [SerializeField] private Sprite bubbleSpriteRight;
@@ -13,7 +13,7 @@ public class AltarText : MonoBehaviour
     [SerializeField] private RectTransform altarTextTransform;
 
     private Player player;
-    public string interactionKey = "E";
+    private string interactionKey = "E";
 
     private void Start()
     {
