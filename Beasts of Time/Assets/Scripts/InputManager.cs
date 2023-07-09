@@ -8,6 +8,7 @@ public class InputManager : MonoBehaviour
 {
     public static InputManager Instance { get; private set; }
 
+    public event EventHandler OnRunAction;
     public event EventHandler OnJumpAction;
     public event EventHandler OnInteractAction;
     public event EventHandler OnFreezeAction;
@@ -17,22 +18,32 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
-        inputActions = new InputActions();
-        inputActions.Player.Enable();
-
-        // Subscribe to relevant events from input actions
-        inputActions.Player.Jump.performed += Jump_performed;
-        inputActions.Player.Interact.performed += Interact_performed;
-        inputActions.Player.Freeze.performed += Freeze_performed;
-        inputActions.Player.Rewind.started += Rewind_started;
-        inputActions.Player.Rewind.canceled += Rewind_canceled;
-
         // Create InputManager singleton instance
         if (Instance != null)
         {
             Debug.LogError("There is more than one InputManager instance");
         }
         Instance = this;
+
+        inputActions = new InputActions();
+        inputActions.Player.Enable();
+    }
+
+    private void Start()
+    {
+        // Subscribe to relevant events from InputActions
+        inputActions.Player.Run.performed += Run_performed;
+        inputActions.Player.Jump.performed += Jump_performed;
+        inputActions.Player.Interact.performed += Interact_performed;
+        inputActions.Player.Freeze.performed += Freeze_performed;
+        inputActions.Player.Rewind.started += Rewind_started;
+        inputActions.Player.Rewind.canceled += Rewind_canceled;
+    }
+
+    private void Run_performed(InputAction.CallbackContext obj)
+    {
+        // Debug.Log("Jump action performed!");
+        OnRunAction?.Invoke(this, EventArgs.Empty);
     }
 
     private void Freeze_performed(InputAction.CallbackContext obj)

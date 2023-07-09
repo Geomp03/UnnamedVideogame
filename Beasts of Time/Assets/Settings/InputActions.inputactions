@@ -15,6 +15,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Run",
+                    "type": "Button",
+                    "id": "7038e4db-9670-4ca0-b099-a9565155d1da",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Jump",
                     "type": "Button",
                     "id": "615c39de-7d6a-4cdd-903c-2c9fd62938f7",
@@ -65,8 +74,19 @@
                 },
                 {
                     "name": "",
-                    "id": "38b7548c-3d0c-4815-a9de-4663034195fd",
-                    "path": "<Keyboard>/space",
+                    "id": "ed9d27f5-a65c-40b1-a86f-4df8c0500d53",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0f95d552-cfec-4e9e-9253-9664cc41fbbe",
+                    "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -159,6 +179,17 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Rewind",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8f2c55b0-677d-4c52-a355-d3bc07539315",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Run",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
