@@ -14,9 +14,9 @@ public class Player : MonoBehaviour
     [SerializeField] private float jumpForce = 400f;
     [SerializeField] private LayerMask groundMask;
 
-    private float movementSpeed;
     private bool isGrounded;
     private bool isRunning = false;
+    private float movementSpeed;
     private Vector2 moveDir;
 
     private void Awake()
